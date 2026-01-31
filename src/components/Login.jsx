@@ -1,7 +1,62 @@
 import Header from "./Header";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { checkValidData } from "../utils/validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
+
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  const name = useRef(null);
+  const email = useRef(null);
+  const password = useRef(null);
+
+  const handleButtonClick = () => {
+    const errorMessage = checkValidData(
+      isSignInForm ? null : name.current.value,
+      email.current.value,
+      password.current.value,
+    );
+    setErrorMessage(errorMessage);
+    if (errorMessage) return;
+    if (!isSignInForm) {
+      //signUpLogic
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value,
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + " - " + errorMessage);
+        });
+    } else {
+      //signInLogic
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value,
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + " - " + errorMessage);
+        });
+    }
+  };
 
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
@@ -16,32 +71,45 @@ const Login = () => {
           alt="background"
         />
       </div>
-      <form className="w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white bg-opacity-80">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white bg-opacity-80"
+      >
         <h1 className="font-bold text-3xl py-4">
           {isSignInForm ? "Sign In" : "Sign Up"}
         </h1>
         {!isSignInForm && (
           <input
+            ref={name}
             type="text"
             placeholder="Name"
             className="p-4 my-4 w-full bg-transparent border-2 border-gray-50"
           />
         )}
         <input
+          ref={email}
           type="email"
           placeholder="Email Address"
           className="p-4 my-4 w-full bg-transparent border-2 border-gray-50"
         />
         <input
+          ref={password}
           type="password"
           placeholder="Password"
           className="p-4 my-4 w-full bg-transparent border-2 border-gray-50"
         />
-        <button className="p-4 my-6 w-full bg-red-700">
+        <p className="font-semibold text-red-600">{errorMessage}</p>
+        <button
+          className="p-4 my-6 w-full bg-red-700"
+          onClick={handleButtonClick}
+        >
           {isSignInForm ? "Sign In" : "Sign Up"}
         </button>
+
         <p onClick={toggleSignInForm} className="py-4 cursor-pointer">
-          New to Netflix? Sign Up Now
+          {isSignInForm
+            ? "New to Netflix? Sign Up Now"
+            : "Already a user? Sign In"}
         </p>
       </form>
     </div>
@@ -49,7 +117,3 @@ const Login = () => {
 };
 
 export default Login;
-
-//
-
-//https://xboxwire.thesourcemediaassets.com/sites/2/2023/05/Background-size1920x1080-4e1694a6-75aa-4c36-9d4d-7fb6a3102005-bc5318781aad7f5c8520.png

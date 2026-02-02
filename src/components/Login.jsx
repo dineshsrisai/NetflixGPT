@@ -7,7 +7,6 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
@@ -15,7 +14,6 @@ const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const name = useRef(null);
@@ -42,22 +40,21 @@ const Login = () => {
           updateProfile(user, {
             displayName: name.current.value,
             photoURL:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKAgIMk3qUdW2GGq1DKiDolIQt5sjP2WTFTRlRSioyB9XEHeirDYxcIdovVHVaEqA1MshwWtUOG-oHeWMf2KTQf2WMOJRTvRnbBuF2Qw&s=10",
+              "https://occ-0-4829-3662.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABfn5oPOIGVSlH36wxaH-5oL5d8wztZgxFQeRq_LSU9RKySbIUMGZ2118vOWyS6Xl3wkKoIHBIknKKSY7YjP3lhLbaaMR3u8.png?r=72f",
           })
             .then(() => {
-              const { uid, email, displayName, photoUrl } = auth.currentUser;
+              const { uid, email, displayName, photoURL } = auth.currentUser;
               dispatch(
                 addUser({
                   uid: uid,
                   email: email,
                   displayName: displayName,
-                  photoUrl: photoUrl,
+                  photoUrl: photoURL,
                 }),
               );
-              navigate("/browse");
             })
             .catch((error) => {
-              setErrorMessage(errorMessage);
+              setErrorMessage(error.message);
             });
           console.log(user);
         })
@@ -76,7 +73,6 @@ const Login = () => {
         .then((userCredential) => {
           const user = userCredential.user;
           console.log(user);
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;

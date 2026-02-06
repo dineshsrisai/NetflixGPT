@@ -4,7 +4,10 @@ export const LOGO =
 export const PHOTO_URL =
   "https://occ-0-4829-3662.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABfn5oPOIGVSlH36wxaH-5oL5d8wztZgxFQeRq_LSU9RKySbIUMGZ2118vOWyS6Xl3wkKoIHBIknKKSY7YjP3lhLbaaMR3u8.png?r=72f";
 
-export const options = {
+export const URL =
+  "https://api.themoviedb.org/3/movie/movie_id/videos?language=en-US";
+
+export const API_OPTIONS = {
   method: "GET",
   headers: {
     accept: "application/json",

@@ -43,11 +43,14 @@ const Header = () => {
     <div className="absolute w-screen px-20 py-2 mx-10 z-10 flex justify-between">
       <img className="w-44" src={LOGO} alt="logo" />
       {user && (
-        <div className="flex p-2">
+        <div className="relative flex p-2 cursor-pointer group">
           <img className="w-12 h-12" src={user?.photoUrl} alt="usericon" />
-          <button onClick={handleSignOut} className="m-2 font-bold text-white">
-            (Sign Out)
-          </button>
+          <span
+            className="absolute right-0 top-14 font-bold text-black px-4 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap"
+            onClick={handleSignOut}
+          >
+            Sign Out
+          </span>
         </div>
       )}
     </div>

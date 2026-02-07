@@ -33,3 +33,18 @@ body {
   overflow-x: hidden; /* Standard CSS property */
   max-width: 100%;
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+}

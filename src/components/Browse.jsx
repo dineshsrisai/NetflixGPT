@@ -6,11 +6,11 @@ import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
 const Browse = () => {
   useNowPlayingMovies();
   return (
-    <div>
+    <>
       <Header />
       <MainContainer />
       <SecondaryContainer />
-    </div>
+    </>
   );
 };
 

@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+  body {
+    @apply bg-black text-white; /* Fixes white background gaps */
+  }
+}
+
+/* --- Custom Dark Scrollbar (Netflix Style) --- */
+::-webkit-scrollbar {
+  width: 8px; /* Thinner scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: black; /* The track is black */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333; /* The scroll handle is dark grey */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Lighter grey when hovering */
+}
+
+/* --- Prevent Horizontal Scroll --- */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Standard CSS property */
+  max-width: 100%;
+}
